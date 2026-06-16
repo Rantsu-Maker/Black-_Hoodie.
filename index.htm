@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mun VideoSivu</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #111;
+      color: white;
+    }
+
+    header {
+      background: #ff0000;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .upload-box {
+      padding: 20px;
+      text-align: center;
+    }
+
+    input {
+      margin-top: 10px;
+    }
+
+    .videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .video-card {
+      background: #222;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    h3 {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  🎬 Mun VideoSivu
+</header>
+
+<div class="upload-box">
+  <h2>Lataa video</h2>
+
+  <input type="text" id="title" placeholder="Videon nimi">
+  <br><br>
+
+  <input type="file" id="videoUpload" accept="video/*">
+</div>
+
+<div class="videos" id="videoList"></div>
+
+<script>
+  const upload = document.getElementById("videoUpload");
+  const titleInput = document.getElementById("title");
+  const videoList = document.getElementById("videoList");
+
+  upload.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file) {
+      const videoURL = URL.createObjectURL(file);
+      const title = titleInput.value || "Uusi video";
+
+      const card = document.createElement("div");
+      card.className = "video-card";
+
+      card.innerHTML = `
+        <video controls>
+          <source src="${videoURL}" type="${file.type}">
+        </video>
+        <h3>${title}</h3>
+      `;
+
+      videoList.prepend(card);
+    }
+  });
+</script>
+
+</body>
+</html>
